@@ -1,15 +1,28 @@
 import React from 'react'
 import { useState,useEffect,ChangeEvent,FormEvent } from 'react'
 
-interface SearchbarcomponentProps{
-    title:string
- 
-}
 
+interface Music {
+    id: string;
+    title: string;
+    link: string;
+    artist: {
+      id: string;
+      name: string;
+      [picture: string]: string;
+    };
+    album: {
+      id: string;
+      title: string;
+      name: string;
+      [picture: string]: string;
+      cover_small:string
+    };
+  }
 
-export default function Searchbar({title}:SearchbarcomponentProps) {
+export default function Searchbar() {
     const [userQuery, setuserQuery] = useState("");
-    const [results, setResults] = useState([]);
+    const [results, setResults] = useState<Music[]>([]);
    
 
  
@@ -27,7 +40,7 @@ export default function Searchbar({title}:SearchbarcomponentProps) {
         }
         const fetchedSongs = await response.json();
         console.log(fetchedSongs);
-        setResults(fetchedSongs.jobs);
+        setResults(fetchedSongs.data);
         
       };
 
@@ -46,7 +59,7 @@ export default function Searchbar({title}:SearchbarcomponentProps) {
       {results.map((result, i) => {
         return (
           <div>
-         
+              <img src={result.album.cover_small}/>
               <h3> {result.album.title}</h3>
           </div>
         );
